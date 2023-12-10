@@ -1,10 +1,44 @@
 import { useState } from 'react'
 import './App.css';
 
+const Button = ({ increaseGood, increaseNeutral, increaseBad }) => {
 
+  return(
+    <div>
+    <button onClick={increaseGood} className="feedback-buttons">good</button>
+    <button onClick={increaseNeutral} className="feedback-buttons">neutral</button>
+    <button onClick={increaseBad} className="feedback-buttons">bad</button>
+    </div>
+  );
+
+
+};
+
+const StatisticLine = ({ text, value }) => (
+  <tr>
+    <td>{text}</td> 
+    <td>{value}</td>
+  </tr>
+);
+
+
+const Statistics = ({ good, neutral, bad, total, average, positive }) => {
+
+  return(
+  <table>
+    <tbody>
+    <StatisticLine text="good" value={good} />
+    <StatisticLine text="neutral" value={neutral} />
+    <StatisticLine text="bad" value={bad} />
+    <StatisticLine text="all" value={total} />
+    <StatisticLine text="average" value={average} />
+    <StatisticLine text="positive" value={positive + ' %'} />
+    </tbody>
+  </table>
+  );
+};
 
 const App = () => {
-  // save clicks of each button to its own state
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
@@ -50,22 +84,32 @@ const App = () => {
     setPositive(newPositive);
 };
 
-
-
-
   return (
     <div>
+
        <h1 className="feedback-header">give feedback</h1>
-       <button onClick={increaseGood} className="feedback-buttons">good</button>
-       <button onClick={increaseNeutral} className="feedback-buttons">neutral</button>
-       <button onClick={increaseBad} className="feedback-buttons">bad</button>
+
+    <Button
+      increaseGood={increaseGood}
+      increaseNeutral={increaseNeutral}
+      increaseBad={increaseBad}
+    />
+
        <h2>statistics</h2>
-       <h3>good {good}</h3>
-       <h3>neutral {neutral}</h3>
-       <h3>bad {bad}</h3>
-       <h3>all {total}</h3>
-       <h3>average {average}</h3>
-       <h3>positive {positive} %</h3>
+
+       {total > 0 ? (
+    <Statistics
+      good={good}
+      neutral={neutral}
+      bad={bad}
+      total={total}
+      average={average}
+      positive={positive}
+      />
+    ) : (
+      <p>No feedback given</p>
+    )}
+
     </div>
   )
 }
