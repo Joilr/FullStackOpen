@@ -1,59 +1,89 @@
-import { useState } from 'react'
-import Person from './components/Person'
+import { useState } from "react";
+import Person from "./components/Person";
 
 const App = () => {
-
   const [persons, setPersons] = useState([
-    { 
-      id: 1,
-      name: 'Arto Hellas' 
+    { name: "Arto Hellas", number: "040-123456", id: "Arto Hellas" },
+    { name: "Ada Lovelace", number: "39-44-5323523", id: "Ada Lovelace" },
+    { name: "Dan Abramov", number: "12-43-234345", id: "Dan Abramov" },
+    {
+      name: "Mary Poppendieck",
+      number: "39-23-6423122",
+      id: "Mary Poppendieck",
     },
-    { 
-      id: 2,
-      name: 'Ada Lovelace' 
-    }
   ]);
-  
 
-  const [newName, setNewName] = useState('')
+  const [newName, setNewName] = useState("");
+  const [newNumber, setNewNumber] = useState("");
+  const [newFilter, setNewFilter] = useState("");
 
   const addPerson = (event) => {
-    event.preventDefault()
-    const personObject = {
-      name: newName,
-      id: persons.length + 1,
+    event.preventDefault();
+
+    if (persons.some((person) => person.name === newName)) {
+      alert(`${newName} is already added to phonebook`);
+    } else if (newNumber == "") {
+      alert(`Missing phone number`);
+    } else {
+      const personObject = {
+        name: newName,
+        number: newNumber,
+        id: newName,
+      };
+
+      setPersons(persons.concat(personObject));
+      setNewName("");
+      setNewNumber("");
     }
-  
-    setPersons(persons.concat(personObject))
-    setNewName('')
-  }
-  
+  };
+
+  const handleFilterChange = (event) => {
+    setNewFilter(event.target.value);
+  };
+
+  const handleNumberChange = (event) => {
+    setNewNumber(event.target.value);
+  };
+
   const handlePersonChange = (event) => {
-    setNewName(event.target.value)
-  }
-  
+    setNewName(event.target.value);
+  };
+
+  const filteredPersons = newFilter
+    ? persons.filter(
+        (person) =>
+          person.name.toLowerCase().includes(newFilter.toLowerCase()) ||
+          person.number.includes(newFilter)
+      )
+    : persons;
 
   return (
     <div>
-      <h2>Phonebook</h2>
+      <h1>Phonebook</h1>
+      <form>
+        <div>
+          filter shown with:
+          <input value={newFilter} onChange={handleFilterChange} />
+        </div>
+        <h1>add a new</h1>
+      </form>
       <form onSubmit={addPerson}>
         <div>
-          name: <input 
-          value={newName}
-          onChange={handlePersonChange}
-           />
+          name: <input value={newName} onChange={handlePersonChange} />
+        </div>
+        <div>
+          number: <input value={newNumber} onChange={handleNumberChange} />
         </div>
         <div>
           <button type="submit">add</button>
         </div>
       </form>
-      <div>debug: {newName}</div>
-      <h2>Numbers</h2>
-      {persons.map(person =>
+      <h1>Numbers</h1>
+      {filteredPersons.map((person) => (
         <Person key={person.id} person={person} />
-        )}
+      ))}
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
