@@ -1,7 +1,7 @@
-const Person = ({ person }) => {
+const Persons = ({ person }) => {
     return (
       <li>{person.name} {person.number}</li>
     )
   }
   
-  export default Person
+  export default Persons
