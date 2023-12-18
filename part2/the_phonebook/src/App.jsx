@@ -28,30 +28,28 @@ const App = () => {
     }
   
     if (persons.some((person) => person.name === newName && person.number === newNumber)) {
-      alert(`${newName} is already added to phonebook with this`);
+      alert(`${newName} is already added to phonebook with this number`);
       return;
     }
-  
-    const existingPerson = persons.find((person) => person.name === newName);
-    if (existingPerson && existingPerson.number !== newNumber) {
-      const confirmUpdate = window.confirm(`${newName} is already added to phonebook, replace the old number with the new one?`);
-  
+    
+    if (persons.some(person => person.name === newName)) {
+      const confirmUpdate = window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`);
+    
       if (confirmUpdate) {
-        const updatedPerson = {
-          ...existingPerson,
-          number: newNumber,
-        };
-  
+        const personToUpdate = persons.find(person => person.name === newName);
         personService
-          .update(existingPerson.id, updatedPerson)
+          .update(personToUpdate.id, {
+            ...personToUpdate,
+            number: newNumber,
+          })
           .then(returnedPerson => {
-            setPersons(persons.map(person => person.id !== existingPerson.id ? person : returnedPerson));
+            setPersons(persons.map(person => person.id !== personToUpdate.id ? person : returnedPerson));
           })
           .catch(error => {
             alert(`Failed to update the person's number: ${error.message}`);
           });
       }
-    } 
+    }
     
     else {
       const personObject = {
