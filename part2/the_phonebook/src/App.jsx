@@ -3,6 +3,7 @@ import Persons from "./components/Persons";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import personService from './services/persons'
+import './index.css'
 
 const App = () => {
 
@@ -10,6 +11,7 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [newFilter, setNewFilter] = useState("");
+  const [addedMessage, setAddedMessage] = useState("");
 
   useEffect(() => {
     personService
@@ -64,6 +66,10 @@ const App = () => {
           setPersons(persons.concat(returnedPerson));
           setNewName('');
           setNewNumber('');
+          setAddedMessage(`Added ${newName}`)
+          setTimeout(() => {
+            setAddedMessage(null);
+          }, 5000);
         });
     }
   };
@@ -104,6 +110,7 @@ const App = () => {
   const handlePersonChange = (event) => {
     setNewName(event.target.value);
   };
+  
 
   const filteredPersons = newFilter
     ? persons.filter(
@@ -113,9 +120,21 @@ const App = () => {
     )
     : persons;
 
+
+    const Notification = ({ message }) => {
+      const messageClass = message ? 'addedMsg' : 'addedMsg empty';
+    
+      return (
+        <div className={messageClass}>
+          {message}
+        </div>
+      );
+    };
+
   return (
     <div>
       <h1>Phonebook</h1>
+      <Notification message={addedMessage} />
       <form>
         <Filter newFilter={newFilter} handleFilterChange={handleFilterChange} />
         <h1>add a new</h1>
