@@ -1,8 +1,14 @@
 import axios from 'axios'
 const baseUrl = 'http://localhost:3001/persons'
+const baseUrl2 = 'http://localhost:3001/deletedPersons'
 
 const getAll = () => {
   const request = axios.get(baseUrl)
+  return request.then(response => response.data)
+}
+
+const getAll2 = () => {
+  const request = axios.get(baseUrl2)
   return request.then(response => response.data)
 }
 
@@ -20,4 +26,9 @@ const dlt = (id) => {
     return axios.delete(`${baseUrl}/${id}`).then(response => response.data);
 }
 
-export default { getAll, create, update, dlt }
+const dltList = newObject => {
+  const request = axios.post(baseUrl2, newObject)
+  return request.then(response => response.data)
+}
+
+export default { getAll, getAll2, create, update, dlt, dltList }
