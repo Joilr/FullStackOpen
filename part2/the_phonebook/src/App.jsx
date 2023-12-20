@@ -26,10 +26,17 @@ const App = () => {
   //Delete functionality
   const deletePerson = ( id ) => {
 
+    const deletedPerson = id
+
     personService
     .removal(id)
     .then(() => {
       setPersons(persons.filter(person => person.id !== id));
+      setMsgColor('red')
+      setMessage(`${deletedPerson} has been removed from the phonebook `)
+      setTimeout(() => {
+        setMessage('')
+      }, 5000)
     })
 
   };
@@ -41,7 +48,11 @@ const App = () => {
 
     //Person already exist in list
     if (persons.some((person) => person.name === newPerson.name && person.number === newPerson.number)) {
-      alert(`${newPerson.name} is already added to phonebook with this number`);
+      setMsgColor('green')
+      setMessage(`${newPerson.name} is already added to phonebook with this number `)
+      setTimeout(() => {
+        setMessage('')
+      }, 5000)
     }
 
     //Changing phonenumber
@@ -60,6 +71,11 @@ const App = () => {
         .update(personObject)
         .then(returnedPerson => {
           setPersons(persons.map(person => person.id !== personObject.id ? person : returnedPerson));
+          setMsgColor('green')
+          setMessage(`${returnedPerson.name} has been updated with new number ${returnedPerson.number} `)
+          setTimeout(() => {
+            setMessage('')
+          }, 5000)
         })
         .catch(() => {
           setMsgColor('red')
