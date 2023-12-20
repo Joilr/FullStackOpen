@@ -3,6 +3,7 @@ import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
 import Persons from './components/Persons';
 import personService from './services/persons'
+import './index.css'
 
 const App = () => {
 
@@ -10,6 +11,8 @@ const App = () => {
   const [persons, setPersons] = useState([]); 
   const [newPerson, setNewPerson] = useState({ name: '', number: '' });
   const [newFilter, setNewFilter] = useState('');
+  const [message, setMessage] = useState('');
+  const [msgColor, setMsgColor] = useState(''); 
 
   //Fetch data from the back-end (server)
   useEffect(() => {
@@ -58,6 +61,13 @@ const App = () => {
         .then(returnedPerson => {
           setPersons(persons.map(person => person.id !== personObject.id ? person : returnedPerson));
         })
+        .catch(() => {
+          setMsgColor('red')
+          setMessage(`Information of ${newPerson.name} has already been removed from server `)
+          setTimeout(() => {
+            setMessage('')
+          }, 5000)
+        })
       }
     }
 
@@ -75,6 +85,11 @@ const App = () => {
     .then(returnedPerson => {
       setPersons(persons.concat(returnedPerson))
       setNewPerson({ name: '', number: '' }); 
+      setMsgColor('green')
+      setMessage(`Added ${returnedPerson.name} `)
+      setTimeout(() => {
+        setMessage('')
+      }, 5000)
     })
     }
   };
@@ -103,11 +118,36 @@ const App = () => {
   )
   : persons;
 
+  //Show message
+  const Notification = ({ message }) => {
+    if (message === '') {
+      return null
+    }
+
+    if (msgColor === 'green') {
+      return (
+        <div className='showMsg-green'>
+          {message}
+        </div>
+      )
+    }
+
+    else if (msgColor === 'red') {
+      return (
+        <div className='showMsg-red'>
+          {message}
+        </div>
+      )
+    }
+  };
+
   //The visual output
   return (
     <div>
       
       <h2>Phonebook</h2>
+
+      <Notification message={message} />
 
       <Filter value={newFilter} onChange={handleFilterChange} />
       
