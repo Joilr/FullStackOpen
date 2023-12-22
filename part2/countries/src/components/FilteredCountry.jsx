@@ -1,3 +1,5 @@
+import GetWeather from "./GetWeather";
+
 const FilteredCountry = ({ filteredCountries, showCountry }) => {
 
     if (filteredCountries.length > 10) {
@@ -21,6 +23,7 @@ const FilteredCountry = ({ filteredCountries, showCountry }) => {
                 ))}
               </ul>
               <img src={country.flags.png} alt={`${country.name.common} flag`} />
+              <GetWeather cityName={country.capital} />
             </div>
           ))}
         </div>   

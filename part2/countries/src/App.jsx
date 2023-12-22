@@ -11,7 +11,7 @@ const App = () => {
   const [newFilter, setNewFilter] = useState('');
   const [countryToShow, setCountryToShow] = useState('');
 
-  //Fetching the country information
+  //Fetching the countries information
   useEffect(() => {
     const fetchData = async () => {
       try {

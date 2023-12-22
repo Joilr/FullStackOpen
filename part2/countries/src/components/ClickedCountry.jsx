@@ -1,3 +1,5 @@
+import GetWeather from "./GetWeather";
+
 const ClickedCountry = ({ countryToShow }) => {
 
     const renderCountryDetails = (country) => {
@@ -13,6 +15,7 @@ const ClickedCountry = ({ countryToShow }) => {
             ))}
           </ul>
           <img src={country.flags.png} alt={`${country.name.common} flag`} />
+          <GetWeather cityName={country.capital} />
         </div>
       );
     };
