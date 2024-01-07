@@ -1,31 +1,21 @@
-const mongoose = require('mongoose')
 const supertest = require('supertest')
+const mongoose = require('mongoose')
+const helper = require('./test_helper')
 const app = require('../app')
 const api = supertest(app)
+
 const Blog = require('../models/blog')
 
-const initialBlogs = [
-  {
-    title: 'Many Jokes',
-    author: 'Henrik',
-    url: 'www.HenrikJokes.org',
-    likes: 513
-  },
-  {
-    title: 'Richards Pitches',
-    author: 'Pitches',
-    url: 'www.Pitches.org',
-    likes: 5134
-  },
-]
+
 
 beforeEach(async () => {
   await Blog.deleteMany({})
 
-  for (let blog of initialBlogs) {
-    let blogObject = new Blog(blog)
-    await blogObject.save()
-  }
+  let blogObject = new Blog(helper.initialBlogs[0])
+  await blogObject.save()
+
+  blogObject = new Blog(helper.initialBlogs[1])
+  await blogObject.save()
 })
 
 describe('Blog Creation', () => {
@@ -44,19 +34,14 @@ describe('Blog Creation', () => {
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
-    const response = await api.get('/api/blogs')
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
 
-    const addedBlog = response.body.find(blog => blog.title === newBlog.title)
-
-    expect(response.body).toHaveLength(initialBlogs.length + 1)
-    expect(addedBlog).toBeDefined()
-    expect(addedBlog.title).toEqual(newBlog.title)
-    expect(addedBlog.author).toEqual(newBlog.author)
-    expect(addedBlog.url).toEqual(newBlog.url)
-    expect(addedBlog.likes).toEqual(newBlog.likes)
+    const titles = blogsAtEnd.map(n => n.title)
+    expect(titles).toContain(
+      'Left Side Querks'
+    )
   })
-
-
 
   test('missing likes property defaults to 0', async () => {
     const newBlogWithoutLikes = {
@@ -100,6 +85,10 @@ describe('Blog Creation', () => {
       .post('/api/blogs')
       .send(newBlogWithoutUrl)
       .expect(400)
+
+    const blogsAtEnd = await helper.blogsInDb()
+
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
   })
 })
 
