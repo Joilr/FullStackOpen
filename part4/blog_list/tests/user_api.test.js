@@ -59,6 +59,51 @@ describe('when there is initially one user in db', () => {
     const usersAtEnd = await helper.usersInDb()
     expect(usersAtEnd).toEqual(usersAtStart)
   })
+
+  test('user without username is not created', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const noUsername = {
+      username: '',
+      name: 'test user',
+      password: 'salad',
+    }
+
+    const result = await api
+      .post('/api/users')
+      .send(noUsername)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    expect(result.body.error).toContain('User validation failed: username: Path `username` is required.')
+
+    const usersAtEnd = await helper.usersInDb()
+    expect(usersAtEnd).toHaveLength(usersAtStart.length)
+
+  })
+
+  test('user not meeting password requirements is not created', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const wrongPass= {
+      username: 'test',
+      name: 'test user',
+      password: 'sa',
+    }
+
+    const result = await api
+      .post('/api/users')
+      .send(wrongPass)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    expect(result.body.error).toContain('Password must be at least 3 characters long.')
+
+    const usersAtEnd = await helper.usersInDb()
+    expect(usersAtEnd).toHaveLength(usersAtStart.length)
+
+  })
+
 })
 
 afterAll(async () => {
