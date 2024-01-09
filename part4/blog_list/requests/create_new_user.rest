@@ -2,8 +2,8 @@ POST http://localhost:3003/api/users/
 Content-Type: application/json
 
 {
-    "username": "fdsdfs",
-    "name": "dgtsertweereereredfg",
-    "password": "33",
+    "username": "fdsdedfs",
+    "name": "dgtserdtweereereredfg",
+    "password": "333",
     "blogs": ""
 }

@@ -6,13 +6,15 @@ const initialBlogs = [
     title: 'Many Jokes',
     author: 'Henrik',
     url: 'www.HenrikJokes.org',
-    likes: 513
+    likes: 513,
+    userId: '1'
   },
   {
     title: 'Richards Pitches',
     author: 'Pitches',
     url: 'www.Pitches.org',
-    likes: 5134
+    likes: 5134,
+    userId: '2'
   },
 ]
 

@@ -2,9 +2,9 @@ POST http://localhost:3003/api/blogs/
 Content-Type: application/json
 
 {
-    "title": "Full Stack Open2623", 
-    "author": "Developer",
-    "url": "www.FSO.org",
-    "likes": "111",
-    "userId": "659b1f5b55795fcafcb47477"
+    "title": "Full Stack Open24326233", 
+    "author": "Developer411",
+    "url": "www.FSO142.org",
+    "likes": "11141",
+    "userId": "659da895aa9d576f7881a356"
 }
