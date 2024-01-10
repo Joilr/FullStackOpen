@@ -1,9 +1,9 @@
 POST http://localhost:3003/api/blogs/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZkc2RlZGZzIiwiaWQiOiI2NTlkYzE2ZTMxMjUxY2Q1YmVhN2Y2M2UiLCJpYXQiOjE3MDQ5MDg1OTcsImV4cCI6MTcwNDkxMjE5N30.fj673pmVun6-RZIUGi9eRrFkEA027UwvkeBS6KIeIRA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlBlciIsImlkIjoiNjU5ZjIwMDJkZDRkNDIxOGQzZmE2ZWM2IiwiaWF0IjoxNzA0OTI3MjUxLCJleHAiOjE3MDQ5MzA4NTF9.Ci4NLhoqtN5GzHsjr8U2jp6TdgHXOCEoZhXAgDTUvV8
 
 {
-    "title": "Tokens Book 2", 
+    "title": "Pers Book 4", 
     "author": "Developer41441",
     "url": "www.FSO34142.org",
     "likes": "111341"
