@@ -7,14 +7,12 @@ const initialBlogs = [
     author: 'Henrik',
     url: 'www.HenrikJokes.org',
     likes: 513,
-    userId: '1'
   },
   {
     title: 'Richards Pitches',
     author: 'Pitches',
     url: 'www.Pitches.org',
     likes: 5134,
-    userId: '2'
   },
 ]
 
@@ -40,5 +38,5 @@ module.exports = {
   initialBlogs,
   nonExistingId,
   blogsInDb,
-  usersInDb,
+  usersInDb
 }

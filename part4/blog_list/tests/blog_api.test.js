@@ -3,10 +3,11 @@ const mongoose = require('mongoose')
 const helper = require('./test_helper')
 const app = require('../app')
 const api = supertest(app)
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 const Blog = require('../models/blog')
-
-
+const User = require('../models/user')
 
 beforeEach(async () => {
   await Blog.deleteMany({})
@@ -18,7 +19,22 @@ beforeEach(async () => {
   await blogObject.save()
 })
 
+//Token
+let token
+
+beforeAll(async () => {
+  await User.deleteMany({})
+
+  const passwordHash = await bcrypt.hash('ab123', 15)
+  const user = await new User({ username: 'test', passwordHash }).save()
+
+  const userForToken = { username: 'test', id: user.id }
+  return token = jwt.sign(userForToken, process.env.SECRET)
+})
+
+
 describe('Blog Creation', () => {
+
   test('a valid blog post can be added', async () => {
 
     const newBlog = {
@@ -30,6 +46,7 @@ describe('Blog Creation', () => {
 
     await api
       .post('/api/blogs')
+      .set('Authorization', `Bearer ${token}`)
       .send(newBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/)
@@ -43,6 +60,25 @@ describe('Blog Creation', () => {
     )
   })
 
+  test('Unauthorized if a token is not provided when adding new blog', async () => {
+
+    const newBlog = {
+      title: 'Left Side Querks',
+      author: 'Ronny',
+      url: 'www.Monny.org',
+      likes: 5
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(401)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
+
+  })
+
   test('missing likes property defaults to 0', async () => {
     const newBlogWithoutLikes = {
       title: 'A blog without likes',
@@ -52,6 +88,7 @@ describe('Blog Creation', () => {
 
     await api
       .post('/api/blogs')
+      .set('Authorization', `Bearer ${token}`)
       .send(newBlogWithoutLikes)
       .expect(201)
       .expect('Content-Type', /application\/json/)
@@ -77,12 +114,14 @@ describe('Blog Creation', () => {
     // Test for missing title
     await api
       .post('/api/blogs')
+      .set('Authorization', `Bearer ${token}`)
       .send(newBlogWithoutTitle)
       .expect(400)
 
     // Test for missing url
     await api
       .post('/api/blogs')
+      .set('Authorization', `Bearer ${token}`)
       .send(newBlogWithoutUrl)
       .expect(400)
 
@@ -119,6 +158,7 @@ describe('Blog deletion', () => {
 
     const postResponse = await api
       .post('/api/blogs')
+      .set('Authorization', `Bearer ${token}`)
       .send(newBlog)
 
     const addedBlogId = postResponse.body.id
@@ -126,6 +166,7 @@ describe('Blog deletion', () => {
     // Delete the blog post
     await api
       .delete(`/api/blogs/${addedBlogId}`)
+      .set('Authorization', `Bearer ${token}`)
       .expect(204)
 
   })
@@ -145,6 +186,7 @@ describe('Update blogpost', () => {
 
     const postResponse = await api
       .post('/api/blogs')
+      .set('Authorization', `Bearer ${token}`)
       .send(newBlog)
 
     const addedBlogId = postResponse.body.id
