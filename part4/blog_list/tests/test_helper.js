@@ -9,10 +9,28 @@ const initialBlogs = [
     likes: 513,
   },
   {
+    title: 'Many Jokes 2',
+    author: 'Henrik',
+    url: 'www.HenrikJokes.org',
+    likes: 513,
+  },
+  {
+    title: 'Many Jokes 3',
+    author: 'Henrik',
+    url: 'www.HenrikJokes.org',
+    likes: 513,
+  },
+  {
     title: 'Richards Pitches',
     author: 'Pitches',
     url: 'www.Pitches.org',
-    likes: 5134,
+    likes: 5000,
+  },
+  {
+    title: 'Richards Pitches 2',
+    author: 'Pitches',
+    url: 'www.Pitches.org',
+    likes: 5000,
   },
 ]
 
