@@ -73,14 +73,14 @@ const App = () => {
       blogFormRef.current.toggleVisibility()
 
       try {
-        const returnedBlog = await blogService.create(blogObject);
-        setBlogs(blogs.concat(returnedBlog));
-        setMessage(`A new blog ${blogObject.title} by ${blogObject.author} added`);
+        const returnedBlog = await blogService.create(blogObject)
+        setBlogs(blogs.concat(returnedBlog))
+        setMessage(`A new blog ${blogObject.title} by ${blogObject.author} added`)
         setTimeout(() => {
-          setMessage('');
-        }, 5000);
+          setMessage('')
+        }, 5000)
       } catch (error) {
-        console.error('Error adding blog:', error);
+        console.error('Error adding blog:', error)
       }
     };
     

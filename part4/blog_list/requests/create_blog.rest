@@ -1,9 +1,8 @@
 POST http://localhost:3003/api/blogs/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlBlciIsImlkIjoiNjU5ZjIwMDJkZDRkNDIxOGQzZmE2ZWM2IiwiaWF0IjoxNzA0OTY4Njg5LCJleHAiOjE3MDQ5NzIyODl9.q1TKjonhwkeMl7HIoj46z9ivysHAjkPkn0SDyvb_PF4
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlBlciIsImlkIjoiNjU5ZjIwMDJkZDRkNDIxOGQzZmE2ZWM2IiwiaWF0IjoxNzA1MTg2NDk0LCJleHAiOjE3MDUxOTAwOTR9.dAzh2IVSw-yU13uf6vBGmBXn6yg7tys8x_9lFLX2K1E
 {
-    "title": "Pers Book 10", 
+    "title": "Pers Book 25", 
     "author": "Developer41441",
     "url": "www.FSO34142.org",
     "likes": "111341"

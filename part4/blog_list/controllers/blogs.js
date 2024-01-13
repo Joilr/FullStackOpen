@@ -4,7 +4,7 @@ const middleware = require('../utils/middleware')
 
 blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog
-    .find({}).populate('user', { username: 1, name: 1, id: 1 })
+    .find({}).populate('user', { username: 1, name: 1 })
 
   response.json(blogs)
 })
@@ -14,19 +14,20 @@ blogsRouter.post('/', middleware.userExtractor, async (request, response) => {
   const body = request.body
   const user = request.user
 
-  const blog = new Blog({
+  const blog = await new Blog({
     title: body.title,
     author: body.author,
     url: body.url,
     likes: body.likes,
-    user: user._id
-  })
+    user: user._id,
+  }).populate('user', { username: 1, name: 1 })
 
   const savedBlog = await blog.save()
+
   user.blogs = user.blogs.concat(savedBlog._id)
   await user.save()
 
-  response.status(201).json(savedBlog)
+  response.status(201).json(savedBlog.toJSON())
 })
 
 blogsRouter.get('/:id', async (request, response) => {
