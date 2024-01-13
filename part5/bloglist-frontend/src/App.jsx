@@ -2,16 +2,15 @@ import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import './index.css'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [message, setMessage] = useState('') 
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('') 
   const [user, setUser] = useState(null)
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+  const [newBlog, setNewBlog] = useState({ title: '', author: '', url: '' })
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -44,9 +43,9 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setErrorMessage('Wrong credentials')
+      setMessage('wrong username or password')
       setTimeout(() => {
-        setErrorMessage(null)
+        setMessage('')
       }, 5000)
     }
   }
@@ -84,20 +83,43 @@ const App = () => {
     event.preventDefault()
 
     const blogObject = {
-      title: title,
-      author: author,
-      url: url
+      title: newBlog.title,
+      author: newBlog.author,
+      url: newBlog.url
     }
   
     blogService
       .create(blogObject)
         .then(returnedBlog => {
         setBlogs(blogs.concat(returnedBlog))
-        setTitle('')
-        setAuthor('')
-        setUrl('')
+        setMessage(`a new blog ${newBlog.title} by ${newBlog.author} added`)
+        setNewBlog({ title: '', author: '', url: '' })
+        setTimeout(() => {
+          setMessage('')
+        }, 5000)
       })
+    }
 
+    const Notification = ({ message }) => {
+      if (message === '') {
+        return null
+      }
+
+      if (message.includes('error') || message.includes('wrong')) {
+        return (
+          <div className='showMsg-red'>
+            {message}
+          </div>
+        )
+      }
+
+      else {
+        return (
+          <div className='showMsg-green'>
+            {message}
+          </div>
+        )
+      }
     }
 
   return (
@@ -105,7 +127,7 @@ const App = () => {
 
       {!user && <div>
         <h1>log in to application</h1>
-
+        <Notification message={message} />
         {loginForm()}
       </div>
       } 
@@ -113,6 +135,8 @@ const App = () => {
 
       {user && <div>
         <h1>blogs</h1>
+
+        <Notification message={message} />
 
         <p>{user.name} logged in <button onClick={logOut}>logout</button></p>
 
@@ -122,27 +146,27 @@ const App = () => {
             title:
             <input 
             type="text"
-            value={title}
+            value={newBlog.title}
             name="Title"
-            onChange={({ target }) => setTitle(target.value)}
+            onChange={({ target }) => setNewBlog({ ...newBlog, title: target.value })}
             />
           </div>
           <div>
             author:
             <input 
             type="text"
-            value={author}
+            value={newBlog.author}
             name="Author"
-            onChange={({ target }) => setAuthor(target.value)}
+            onChange={({ target }) => setNewBlog({ ...newBlog, author: target.value })}
             />
           </div>
           <div>
             url:
             <input 
             type="text"
-            value={url}
+            value={newBlog.url}
             name="Url"
-            onChange={({ target }) => setUrl(target.value)}
+            onChange={({ target }) => setNewBlog({ ...newBlog, url: target.value })}
             />
           </div>
           <button type="submit">create</button>
