@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 
 const Blog = ({ blog, handleLikeClick, handleDeleteClick, loggedInUser }) => {
-  const [blogVisibility, setBlogVisibility] = useState('View');
+  const [blogVisibility, setBlogVisibility] = useState('View')
 
   const toggleVisibility = () => {
-    setBlogVisibility((prevVisibility) => (prevVisibility === 'View' ? 'Hide' : 'View'));
-  };
+    setBlogVisibility((prevVisibility) => (prevVisibility === 'View' ? 'Hide' : 'View'))
+  }
 
   const updateForm = (blog) => {
 
@@ -19,7 +19,7 @@ const Blog = ({ blog, handleLikeClick, handleDeleteClick, loggedInUser }) => {
 
     handleLikeClick(blog.id, updatedBlog)
 
-  };
+  }
 
 
   return (
@@ -29,23 +29,23 @@ const Blog = ({ blog, handleLikeClick, handleDeleteClick, loggedInUser }) => {
 
       <button onClick={toggleVisibility}>{blogVisibility}</button>
 
-      {blogVisibility === 'Hide' && 
+      {blogVisibility === 'Hide' &&
       <div>
         <div>{blog.url}</div>
         <div>likes {blog.likes} <button onClick={() => updateForm(blog)}>like</button></div>
         <div>{blog.user.username}</div>
-        
+
         {loggedInUser.name === blog.user.name &&
         <button className='rm-btn' onClick={() => {
           if (window.confirm(`Remove ${blog.title} by ${blog.author}`)) {
-            handleDeleteClick(blog.id);
+            handleDeleteClick(blog.id)
           }}}>remove</button>
         }
       </div>
 
       }
     </div>
-  );
-};
+  )
+}
 
-export default Blog;
+export default Blog
