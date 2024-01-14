@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Blog = ({ blog, handleLikeClick }) => {
+const Blog = ({ blog, handleLikeClick, handleDeleteClick, loggedInUser }) => {
   const [blogVisibility, setBlogVisibility] = useState('View');
 
   const toggleVisibility = () => {
@@ -21,6 +21,7 @@ const Blog = ({ blog, handleLikeClick }) => {
 
   };
 
+
   return (
     <div className='blog-text'>
 
@@ -33,6 +34,13 @@ const Blog = ({ blog, handleLikeClick }) => {
         <div>{blog.url}</div>
         <div>likes {blog.likes} <button onClick={() => updateForm(blog)}>like</button></div>
         <div>{blog.user.username}</div>
+        
+        {loggedInUser.name === blog.user.name &&
+        <button className='rm-btn' onClick={() => {
+          if (window.confirm(`Remove ${blog.title} by ${blog.author}`)) {
+            handleDeleteClick(blog.id);
+          }}}>remove</button>
+        }
       </div>
 
       }

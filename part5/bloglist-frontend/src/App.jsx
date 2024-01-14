@@ -97,6 +97,17 @@ const App = () => {
       }
 
     }
+
+    const deleteBlog = async (id) => {
+      console.log(id)
+      try {
+        await blogService.remove(id);
+        setBlogs((prevBlogs) => prevBlogs.filter((blog) => blog.id !== id));
+      } catch (error) {
+        console.error('Error deleting blog:', error);
+      }
+    };
+    
     
     const Notification = ({ message }) => {
       if (message === '') {
@@ -137,7 +148,9 @@ const App = () => {
             <Notification message={message} />
             <p>{user.name} logged in <button onClick={logOut}>logout</button></p>
             <div>{blogForm()}</div>
-            {blogs.map(blog =><Blog key={blog.id} blog={blog} handleLikeClick={updateBlog} />)}
+            {blogs
+            .sort((a, b) => b.likes - a.likes)
+            .map(blog =><Blog key={blog.id} blog={blog} handleLikeClick={updateBlog} handleDeleteClick={deleteBlog} loggedInUser={user}/>)}
         </div>
       }
 
