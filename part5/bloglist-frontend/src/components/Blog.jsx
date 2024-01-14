@@ -7,6 +7,7 @@ const Blog = ({ blog, handleLikeClick, handleDeleteClick, loggedInUser }) => {
     setBlogVisibility((prevVisibility) => (prevVisibility === 'View' ? 'Hide' : 'View'))
   }
 
+  //updates likes
   const updateForm = (blog) => {
 
     const updatedBlog = {
@@ -25,7 +26,7 @@ const Blog = ({ blog, handleLikeClick, handleDeleteClick, loggedInUser }) => {
   return (
     <div className='blog-text'>
 
-      {blog.title} {blog.author}{' '}
+      <span className='blog-title'>{blog.title}</span> <span className='blog-author'>{blog.author}</span>{' '}
 
       <button onClick={toggleVisibility}>{blogVisibility}</button>
 
