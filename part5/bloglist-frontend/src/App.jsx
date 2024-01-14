@@ -82,7 +82,21 @@ const App = () => {
       } catch (error) {
         console.error('Error adding blog:', error)
       }
-    };
+    }
+
+    const updateBlog = async (id, updatedBlog) => {
+
+      try {
+        const returnedBlog = await blogService.update(id, updatedBlog)
+        const updatedBlogs = blogs.map((blog) =>
+          blog.id === id ? returnedBlog : blog
+        )
+        setBlogs(updatedBlogs)
+      } catch (error) {
+        console.error('Error updating blog:', error)
+      }
+
+    }
     
     const Notification = ({ message }) => {
       if (message === '') {
@@ -123,7 +137,7 @@ const App = () => {
             <Notification message={message} />
             <p>{user.name} logged in <button onClick={logOut}>logout</button></p>
             <div>{blogForm()}</div>
-            {blogs.map(blog =><Blog key={blog.id} blog={blog} />)}
+            {blogs.map(blog =><Blog key={blog.id} blog={blog} handleLikeClick={updateBlog} />)}
         </div>
       }
 

@@ -1,10 +1,24 @@
 import React, { useState } from 'react';
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, handleLikeClick }) => {
   const [blogVisibility, setBlogVisibility] = useState('View');
 
   const toggleVisibility = () => {
     setBlogVisibility((prevVisibility) => (prevVisibility === 'View' ? 'Hide' : 'View'));
+  };
+
+  const updateForm = (blog) => {
+
+    const updatedBlog = {
+      title: blog.title,
+      author: blog.author,
+      url: blog.url,
+      likes: blog.likes + 1,
+      user: blog.user.id
+    }
+
+    handleLikeClick(blog.id, updatedBlog)
+
   };
 
   return (
@@ -17,7 +31,7 @@ const Blog = ({ blog }) => {
       {blogVisibility === 'Hide' && 
       <div>
         <div>{blog.url}</div>
-        <div>likes {blog.likes} <button>like</button></div>
+        <div>likes {blog.likes} <button onClick={() => updateForm(blog)}>like</button></div>
         <div>{blog.user.username}</div>
       </div>
 
