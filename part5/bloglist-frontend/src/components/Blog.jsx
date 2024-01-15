@@ -33,7 +33,7 @@ const Blog = ({ blog, handleLikeClick, handleDeleteClick, loggedInUser }) => {
       {blogVisibility === 'Hide' &&
       <div>
         <div>{blog.url}</div>
-        <div>likes {blog.likes} <button onClick={() => updateForm(blog)}>like</button></div>
+        <div>likes {blog.likes} <button className='like-btn' onClick={() => updateForm(blog)}>like</button></div>
         <div>{blog.user.username}</div>
 
         {loggedInUser.name === blog.user.name &&

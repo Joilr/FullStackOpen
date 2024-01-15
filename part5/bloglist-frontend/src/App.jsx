@@ -29,7 +29,7 @@ const App = () => {
 
   const loginForm = () => (
 
-    <Togglable buttonLabel='log in'>
+    <Togglable buttonLabel='log in' className='log-in-btn'>
       <LoginForm handleLogin={handleLogin}/>
     </Togglable>
 
@@ -63,7 +63,7 @@ const App = () => {
   const blogFormRef = useRef()
 
   const blogForm = () => (
-    <Togglable buttonLabel='new blog' ref={blogFormRef}>
+    <Togglable buttonLabel='new blog' className='new-blog-btn' ref={blogFormRef}>
       <BlogForm createBlog={addBlog}/>
     </Togglable>
   )
@@ -136,7 +136,7 @@ const App = () => {
 
       {!user &&
       <div>
-        <h1>log in to application</h1>
+        <h1>login to application</h1>
         <Notification message={message} />
       </div>}
 
