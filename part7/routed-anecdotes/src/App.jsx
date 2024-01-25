@@ -4,8 +4,10 @@ import {
   Routes, Route, Link,
   useParams, useNavigate
 } from 'react-router-dom'
+import  { useField } from './hooks'
 
 const Menu = () => {
+  
   const padding = {
     paddingRight: 5
   }
@@ -70,18 +72,28 @@ const Footer = () => (
 )
 
 const CreateNew = (props) => {
-  const [content, setContent] = useState('')
-  const [author, setAuthor] = useState('')
-  const [info, setInfo] = useState('')
+  const content = useField('text')
+  const author = useField('text')
+  const info = useField('text')
+
+  const { reset: resetContent, ...contentProps } = content
+  const { reset: resetAuthor, ...authorProps } = author
+  const { reset: resetInfo, ...infoProps } = info
+
+  const resetForm = () => {
+    resetContent()
+    resetAuthor()
+    resetInfo()
+}
 
   const navigate = useNavigate()
 
   const handleSubmit = (e) => {
     e.preventDefault()
     props.addNew({
-      content,
-      author,
-      info,
+      content: content.value,
+      author: author.value,
+      info: info.value,
       votes: 0
     })
 
@@ -95,17 +107,18 @@ const CreateNew = (props) => {
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input name='content' value={content} onChange={(e) => setContent(e.target.value)} />
+          <input {...contentProps} /> 
         </div>
         <div>
           author
-          <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} />
+          <input {...authorProps} /> 
         </div>
         <div>
           url for more info
-          <input name='info' value={info} onChange={(e)=> setInfo(e.target.value)} />
+          <input {...infoProps} /> 
         </div>
-        <button>create</button>
+        <button type="submit">create</button>
+        <button onClick={resetForm} type="button">reset</button>
       </form>
     </div>
   )
@@ -167,7 +180,6 @@ const App = () => {
           <Route path="/" element={<AnecdoteList anecdotes={anecdotes} />} />
           <Route path="/create_new" element={<CreateNew addNew={addNew} />} />
           <Route path="/about" element={<About />} />
-
         </Routes>
       <Footer />
     </div>
