@@ -1,4 +1,4 @@
-const listHelper = require('../utils/for_testing')
+const listHelper = require('../utils/for_testing');
 
 const listWithMultipleBlogs = [
   {
@@ -7,7 +7,7 @@ const listWithMultipleBlogs = [
     author: 'Michael Chan',
     url: 'https://reactpatterns.com/',
     likes: 7,
-    __v: 0
+    __v: 0,
   },
   {
     _id: '5a422aa71b54a676234d17f8',
@@ -15,7 +15,7 @@ const listWithMultipleBlogs = [
     author: 'Edsger W. Dijkstra',
     url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
     likes: 5,
-    __v: 0
+    __v: 0,
   },
   {
     _id: '5a422b3a1b54a676234d17f9',
@@ -23,7 +23,7 @@ const listWithMultipleBlogs = [
     author: 'Edsger W. Dijkstra',
     url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
     likes: 12,
-    __v: 0
+    __v: 0,
   },
   {
     _id: '5a422b891b54a676234d17fa',
@@ -31,7 +31,7 @@ const listWithMultipleBlogs = [
     author: 'Robert C. Martin',
     url: 'http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll',
     likes: 10,
-    __v: 0
+    __v: 0,
   },
   {
     _id: '5a422ba71b54a676234d17fb',
@@ -39,7 +39,7 @@ const listWithMultipleBlogs = [
     author: 'Robert C. Martin',
     url: 'http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html',
     likes: 0,
-    __v: 0
+    __v: 0,
   },
   {
     _id: '5a422bc61b54a676234d17fc',
@@ -47,50 +47,43 @@ const listWithMultipleBlogs = [
     author: 'Robert C. Martin',
     url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
     likes: 2,
-    __v: 0
-  }
-]
+    __v: 0,
+  },
+];
 
 test('dummy returns one', () => {
-  const blogs = []
+  const blogs = [];
 
-  const result = listHelper.dummy(blogs)
-  expect(result).toBe(1)
-})
+  const result = listHelper.dummy(blogs);
+  expect(result).toBe(1);
+});
 
 describe('most likes', () => {
-
   test('find the blog with most likes', () => {
-    const result = listHelper.favoriteBlog(listWithMultipleBlogs)
+    const result = listHelper.favoriteBlog(listWithMultipleBlogs);
     expect(result).toEqual({
       title: 'Canonical string reduction',
       author: 'Edsger W. Dijkstra',
-      likes: 12
-    })
-  })
-
-})
+      likes: 12,
+    });
+  });
+});
 
 test('return author with most blogs', () => {
-
-  const result = listHelper.mostBlogs(listWithMultipleBlogs)
+  const result = listHelper.mostBlogs(listWithMultipleBlogs);
   expect(result).toEqual({
     author: 'Robert C. Martin',
-    blogs: 3
-  })
-
-})
+    blogs: 3,
+  });
+});
 
 test('return author with most likes', () => {
-
-  const result = listHelper.mostLikes(listWithMultipleBlogs)
+  const result = listHelper.mostLikes(listWithMultipleBlogs);
   expect(result).toEqual({
     author: 'Edsger W. Dijkstra',
-    likes: 17
-  })
-
-})
-
+    likes: 17,
+  });
+});
 
 describe('total likes', () => {
   const listWithOneBlog = [
@@ -100,23 +93,23 @@ describe('total likes', () => {
       author: 'Edsger W. Dijkstra',
       url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
       likes: 5,
-      __v: 0
-    }
-  ]
+      __v: 0,
+    },
+  ];
 
   test('when list has only one blog, equals the likes of that', () => {
-    const result = listHelper.totalLikes(listWithOneBlog)
-    expect(result).toBe(5)
-  })
+    const result = listHelper.totalLikes(listWithOneBlog);
+    expect(result).toBe(5);
+  });
 
   test('when list have multiple blogs, equals the likes of those', () => {
-    const result = listHelper.totalLikes(listWithMultipleBlogs)
-    expect(result).toBe(36)
-  })
+    const result = listHelper.totalLikes(listWithMultipleBlogs);
+    expect(result).toBe(36);
+  });
 
   test('when list is empty, equals to zero', () => {
-    const emptyList = []
-    const result = listHelper.totalLikes(emptyList)
-    expect(result).toBe(0)
-  })
-})
+    const emptyList = [];
+    const result = listHelper.totalLikes(emptyList);
+    expect(result).toBe(0);
+  });
+});
