@@ -50,7 +50,7 @@ function mostLikes(blogs) {
 
   const mostLikedAuthor = _.maxBy(
     _.keys(authorLikes),
-    (author) => authorLikes[author]
+    (author) => authorLikes[author],
   );
 
   const result = {

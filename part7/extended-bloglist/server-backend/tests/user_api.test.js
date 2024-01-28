@@ -76,7 +76,7 @@ describe('when there is initially one user in db', () => {
       .expect('Content-Type', /application\/json/);
 
     expect(result.body.error).toContain(
-      'User validation failed: username: Path `username` is required.'
+      'User validation failed: username: Path `username` is required.',
     );
 
     const usersAtEnd = await helper.usersInDb();
@@ -99,7 +99,7 @@ describe('when there is initially one user in db', () => {
       .expect('Content-Type', /application\/json/);
 
     expect(result.body.error).toContain(
-      'Password must be at least 3 characters long.'
+      'Password must be at least 3 characters long.',
     );
 
     const usersAtEnd = await helper.usersInDb();

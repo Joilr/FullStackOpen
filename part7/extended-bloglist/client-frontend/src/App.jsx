@@ -6,11 +6,15 @@ import BlogForm from './components/BlogForm';
 import blogService from './services/blogs';
 import loginService from './services/login';
 import './index.css';
+import Notification from './components/Notification';
+import { useSelector, useDispatch } from 'react-redux';
+import { setNotification } from './reducers/notificationReducer';
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
-  const [message, setMessage] = useState('');
   const [user, setUser] = useState(null);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -42,10 +46,7 @@ const App = () => {
       blogService.setToken(user.token);
       setUser(user);
     } catch (exception) {
-      setMessage('wrong username or password');
-      setTimeout(() => {
-        setMessage('');
-      }, 5000);
+      dispatch(setNotification('wrong username or password', 5));
     }
   };
 
@@ -72,12 +73,12 @@ const App = () => {
     try {
       const returnedBlog = await blogService.create(blogObject);
       setBlogs(blogs.concat(returnedBlog));
-      setMessage(
-        `A new blog ${blogObject.title} by ${blogObject.author} added`,
+      dispatch(
+        setNotification(
+          `A new blog ${blogObject.title} by ${blogObject.author} added`,
+          5,
+        ),
       );
-      setTimeout(() => {
-        setMessage('');
-      }, 5000);
     } catch (error) {
       console.error('Error adding blog:', error);
     }
@@ -105,24 +106,12 @@ const App = () => {
     }
   };
 
-  const Notification = ({ message }) => {
-    if (message === '') {
-      return null;
-    }
-
-    if (message.includes('error') || message.includes('wrong')) {
-      return <div className="showMsg-red">{message}</div>;
-    } else {
-      return <div className="showMsg-green">{message}</div>;
-    }
-  };
-
   return (
     <div>
       {!user && (
         <div>
           <h1>login to application</h1>
-          <Notification message={message} />
+          <Notification />
         </div>
       )}
 
@@ -131,7 +120,7 @@ const App = () => {
       {user && (
         <div>
           <h1>blogs</h1>
-          <Notification message={message} />
+          <Notification />
           <p>
             {user.name} logged in <button onClick={logOut}>logout</button>
           </p>

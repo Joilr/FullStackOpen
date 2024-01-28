@@ -85,7 +85,7 @@ describe('Blog Creation', () => {
 
     const response = await api.get('/api/blogs');
     const createdBlog = response.body.find(
-      (blog) => blog.title === newBlogWithoutLikes.title
+      (blog) => blog.title === newBlogWithoutLikes.title,
     );
 
     expect(createdBlog).toBeDefined();

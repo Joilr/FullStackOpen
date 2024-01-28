@@ -12,13 +12,16 @@
     "cypress:open": "cypress open"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.1.0",
     "axios": "^1.4.0",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-redux": "^9.1.0",
+    "redux": "^5.0.1"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.23.8",
+    "@babel/preset-env": "^7.23.9",
     "@babel/preset-react": "^7.23.3",
     "@testing-library/jest-dom": "^6.2.0",
     "@testing-library/react": "^14.1.2",
@@ -27,6 +30,7 @@
     "@types/react-dom": "^18.2.7",
     "@vitejs/plugin-react": "^4.0.3",
     "cypress": "^13.6.2",
+    "deep-freeze": "^0.0.1",
     "eslint": "^8.45.0",
     "eslint-plugin-cypress": "^2.15.1",
     "eslint-plugin-jest": "^27.6.3",

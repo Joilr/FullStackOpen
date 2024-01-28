@@ -52,7 +52,7 @@ blogsRouter.delete(
     } else {
       response.status(401).end();
     }
-  }
+  },
 );
 
 blogsRouter.put('/:id', async (request, response) => {
