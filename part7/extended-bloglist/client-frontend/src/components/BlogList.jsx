@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setNotification } from '../reducers/notificationReducer';
 import { likeBlog } from '../reducers/blogReducer';
 import { removeBlog } from '../reducers/blogReducer';
 
-const BlogList = ({ handleDeleteClick, loggedInUser }) => {
+const BlogList = () => {
   const dispatch = useDispatch();
+
+  const user = useSelector((state) => {
+    return state.user;
+  });
 
   const [blogVisibility, setBlogVisibility] = useState('View');
 
@@ -59,7 +63,7 @@ const BlogList = ({ handleDeleteClick, loggedInUser }) => {
                 </div>
                 <div>{blog.user.username}</div>
 
-                {loggedInUser.name === blog.user.name && (
+                {user.name === blog.user.name && (
                   <button
                     className="rm-btn"
                     onClick={() => {
