@@ -83,28 +83,6 @@ const App = () => {
     }
   };
 
-  const updateBlog = async (id, updatedBlog) => {
-    try {
-      const returnedBlog = await blogService.update(id, updatedBlog);
-      const updatedBlogs = blogs.map((blog) =>
-        blog.id === id ? returnedBlog : blog,
-      );
-      setBlogs(updatedBlogs);
-    } catch (error) {
-      console.error('Error updating blog:', error);
-    }
-  };
-
-  const deleteBlog = async (id) => {
-    console.log(id);
-    try {
-      await blogService.remove(id);
-      setBlogs((prevBlogs) => prevBlogs.filter((blog) => blog.id !== id));
-    } catch (error) {
-      console.error('Error deleting blog:', error);
-    }
-  };
-
   return (
     <div>
       {!user && (
@@ -125,11 +103,7 @@ const App = () => {
           </p>
           <div>{blogForm()}</div>
 
-          <BlogList
-            handleLikeClick={updateBlog}
-            handleDeleteClick={deleteBlog}
-            loggedInUser={user}
-          />
+          <BlogList loggedInUser={user} />
         </div>
       )}
     </div>

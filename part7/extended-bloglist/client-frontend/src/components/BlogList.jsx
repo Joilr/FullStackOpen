@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setNotification } from '../reducers/notificationReducer';
+import { likeBlog } from '../reducers/blogReducer';
+import { removeBlog } from '../reducers/blogReducer';
 
-const BlogList = ({ handleLikeClick, handleDeleteClick, loggedInUser }) => {
+const BlogList = ({ handleDeleteClick, loggedInUser }) => {
   const dispatch = useDispatch();
 
   const [blogVisibility, setBlogVisibility] = useState('View');
@@ -13,9 +15,14 @@ const BlogList = ({ handleLikeClick, handleDeleteClick, loggedInUser }) => {
     );
   };
 
+  //delete blog
+  const blogRemoval = (id) => {
+    dispatch(removeBlog(id));
+  };
+
   //updates likes
-  const updateForm = (blog) => {
-    const updatedBlog = {
+  const like = (blog) => {
+    const newObject = {
       title: blog.title,
       author: blog.author,
       url: blog.url,
@@ -23,7 +30,9 @@ const BlogList = ({ handleLikeClick, handleDeleteClick, loggedInUser }) => {
       user: blog.user.id,
     };
 
-    handleLikeClick(blog.id, updatedBlog);
+    const id = blog.id;
+
+    dispatch(likeBlog(id, newObject));
   };
 
   const blogs = useSelector((state) => {
@@ -44,7 +53,7 @@ const BlogList = ({ handleLikeClick, handleDeleteClick, loggedInUser }) => {
                 <div>{blog.url}</div>
                 <div>
                   likes {blog.likes}{' '}
-                  <button className="like-btn" onClick={() => updateForm(blog)}>
+                  <button className="like-btn" onClick={() => like(blog)}>
                     like
                   </button>
                 </div>
@@ -57,7 +66,7 @@ const BlogList = ({ handleLikeClick, handleDeleteClick, loggedInUser }) => {
                       if (
                         window.confirm(`Remove ${blog.title} by ${blog.author}`)
                       ) {
-                        handleDeleteClick(blog.id);
+                        blogRemoval(blog.id);
                       }
                     }}
                   >
