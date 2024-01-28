@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import Blog from './components/Blog';
+import BlogList from './components/BlogList';
 import Togglable from './components/Togglable';
 import LoginForm from './components/LoginForm';
 import BlogForm from './components/BlogForm';
@@ -9,16 +9,15 @@ import './index.css';
 import Notification from './components/Notification';
 import { useSelector, useDispatch } from 'react-redux';
 import { setNotification } from './reducers/notificationReducer';
+import { initializeBlogs } from './reducers/blogReducer';
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs));
-  }, []);
+  dispatch(initializeBlogs());
+  useEffect(() => {}, []);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser');
@@ -125,17 +124,12 @@ const App = () => {
             {user.name} logged in <button onClick={logOut}>logout</button>
           </p>
           <div>{blogForm()}</div>
-          {blogs
-            .sort((a, b) => b.likes - a.likes)
-            .map((blog) => (
-              <Blog
-                key={blog.id}
-                blog={blog}
-                handleLikeClick={updateBlog}
-                handleDeleteClick={deleteBlog}
-                loggedInUser={user}
-              />
-            ))}
+
+          <BlogList
+            handleLikeClick={updateBlog}
+            handleDeleteClick={deleteBlog}
+            loggedInUser={user}
+          />
         </div>
       )}
     </div>
