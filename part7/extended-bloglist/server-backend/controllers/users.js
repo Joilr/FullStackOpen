@@ -37,4 +37,23 @@ usersRouter.get('/', async (request, response) => {
   response.json(users);
 });
 
+usersRouter.get('/users', async (request, response) => {
+  const users = await User.find({});
+  response.json(users);
+});
+
+usersRouter.get('/:id', async (request, response) => {
+  const userId = request.params.id;
+  try {
+    const user = await User.findById(userId);
+    if (user) {
+      response.json(user);
+    } else {
+      response.status(404).send('User not found');
+    }
+  } catch (error) {
+    response.status(500).json({ error: error.message });
+  }
+});
+
 module.exports = usersRouter;
