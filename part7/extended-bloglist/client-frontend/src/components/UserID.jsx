@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { BrowserRouter as Router, Link } from 'react-router-dom';
 
 const UsersList = () => {
   const id = useParams().id;
@@ -35,6 +36,7 @@ const UsersList = () => {
     setLoading(false);
   }, [id]);
 
+  //Match person id with id from blogs to gather the specific blog items
   const personBlogs = blogs.filter((blog) => blog.user.id === id);
 
   if (loading) {
@@ -51,7 +53,9 @@ const UsersList = () => {
       <h2>added blogs</h2>
       <ul>
         {personBlogs.map((blog) => (
-          <li key={blog.id}>{blog.title}</li>
+          <li key={blog.id}>
+            <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+          </li>
         ))}
       </ul>
     </div>

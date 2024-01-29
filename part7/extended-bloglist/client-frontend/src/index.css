@@ -31,3 +31,14 @@
 .rm-btn {
   background-color: rgb(66, 134, 246);
 }
+
+.navBar {
+  background-color: rgb(195, 198, 201);
+  display: flex;
+  flex-direction: row;
+  padding: 5px;
+}
+
+.navBar > * {
+  margin-right: 5px;
+}

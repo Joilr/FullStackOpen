@@ -1,11 +1,4 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link,
-  useParams,
-  useNavigate,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useRef } from 'react';
 import BlogList from './components/BlogList';
 import Togglable from './components/Togglable';
@@ -13,6 +6,8 @@ import LoginForm from './components/LoginForm';
 import BlogForm from './components/BlogForm';
 import UsersList from './components/UsersList';
 import UserID from './components/UserID';
+import BlogID from './components/BlogID';
+import NavBar from './components/NavBar';
 import './index.css';
 import Notification from './components/Notification';
 import { useSelector, useDispatch } from 'react-redux';
@@ -25,11 +20,6 @@ const App = () => {
 
   const dispatch = useDispatch();
   dispatch(initializeBlogs());
-
-  const logOut = () => {
-    window.localStorage.clear();
-    window.location.reload();
-  };
 
   const blogFormRef = useRef();
 
@@ -48,11 +38,10 @@ const App = () => {
 
         {user && (
           <div>
+            <NavBar />
             <h1>blogs</h1>
             <Notification />
-            <p>
-              {user.name} logged in <button onClick={logOut}>logout</button>
-            </p>
+
             <Togglable
               buttonLabel="new blog"
               className="new-blog-btn"
@@ -65,6 +54,7 @@ const App = () => {
               <Route path="/" element={<BlogList />} />
               <Route path="/users" element={<UsersList />} />
               <Route path="/users/:id" element={<UserID />} />
+              <Route path="/blogs/:id" element={<BlogID />} />
             </Routes>
           </div>
         )}

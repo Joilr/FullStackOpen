@@ -1,12 +1,5 @@
 import { useState, useEffect } from 'react';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link,
-  useParams,
-  useNavigate,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Link } from 'react-router-dom';
 
 const UsersList = () => {
   const [users, setUsers] = useState([]);
@@ -28,7 +21,7 @@ const UsersList = () => {
       <ul>
         {users.map((user) => (
           <li key={user.id}>
-            <Link to={`/users/${user.id}`}>{user.username}</Link>
+            <Link to={`/users/${user.id}`}>{user.username} </Link>
             {user.blogs.length}
           </li>
         ))}
