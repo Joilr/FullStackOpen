@@ -52,7 +52,7 @@ blogsRouter.delete(
     } else {
       response.status(401).end();
     }
-  },
+  }
 );
 
 blogsRouter.put('/:id', async (request, response) => {
@@ -75,6 +75,33 @@ blogsRouter.put('/:id', async (request, response) => {
     response.json(updated);
   } else {
     response.status(404).end();
+  }
+});
+
+blogsRouter.post('/:id/comments', async (request, response) => {
+  const commentText = request.body.text;
+
+  // Simple validation
+  if (!commentText) {
+    return response.status(400).send({ error: 'Comment text is missing' });
+  }
+
+  try {
+    const blog = await Blog.findById(request.params.id);
+    if (!blog) {
+      return response.status(404).end();
+    }
+
+    // Add the new comment with the text and the user who posted it
+    const newComment = {
+      text: commentText,
+    };
+    blog.comments.push(newComment);
+
+    const updatedBlog = await blog.save();
+    response.json(updatedBlog);
+  } catch (error) {
+    response.status(400).json({ error: error.message + 'hello!!!' });
   }
 });
 

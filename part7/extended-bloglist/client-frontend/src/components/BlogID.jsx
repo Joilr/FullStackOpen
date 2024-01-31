@@ -1,18 +1,25 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { removeBlog } from '../reducers/blogReducer';
-import { likeBlog } from '../reducers/blogReducer';
+import { removeBlog, likeBlog, commentBlog } from '../reducers/blogReducer';
 import { useSelector, useDispatch } from 'react-redux';
 
 const UsersList = () => {
-  const id = useParams().id;
-  const [blog, setBlog] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { id } = useParams();
+  const [comment, setComment] = useState('');
   const dispatch = useDispatch();
+
+  const blog = useSelector((state) => state.blogs.find((b) => b.id === id));
 
   const user = useSelector((state) => {
     return state.user;
   });
+
+  //add comment
+  const addComment = (event) => {
+    event.preventDefault();
+    dispatch(commentBlog(blog.id, comment));
+    setComment(''); // Clear the input field after submitting
+  };
 
   //delete blog
   const blogRemoval = (id) => {
@@ -20,37 +27,18 @@ const UsersList = () => {
   };
 
   //updates likes
-  const like = (blog) => {
+  const like = () => {
     const updatedBlog = { ...blog, likes: blog.likes + 1 };
     dispatch(likeBlog(blog.id, updatedBlog));
-    setBlog(updatedBlog);
   };
 
-  useEffect(() => {
-    const fetchBlog = async () => {
-      try {
-        const response = await fetch(`http://localhost:3003/api/blogs/${id}`);
-        const userData = await response.json();
-        setBlog(userData);
-      } catch (error) {
-        console.error('Failed to fetch user:', error);
-      }
-    };
-
-    if (id) {
-      fetchBlog();
-    }
-
-    setLoading(false);
-  }, [id]);
-
-  if (loading) {
+  if (!blog) {
     return <div>Loading...</div>;
   }
 
-  if (!blog) {
-    return <div>User not found</div>;
-  }
+  const commentsTexts = blog.comments
+    ? blog.comments.map((comment) => comment.text)
+    : [];
 
   return (
     <div>
@@ -64,8 +52,25 @@ const UsersList = () => {
           </button>
         </span>
       </div>
-      <h2>{user.username}</h2>
+      <h2>added by {user.username}</h2>
+      <h2>comments</h2>
 
+      <ul>
+        {commentsTexts.map((text, index) => (
+          <li key={index}>{text}</li>
+        ))}
+      </ul>
+      <form onSubmit={addComment}>
+        <input
+          type="text"
+          id="comment-input"
+          value={comment}
+          onChange={(event) => setComment(event.target.value)}
+        />
+        <button className="comment-btn" type="submit">
+          add comment
+        </button>
+      </form>
       <button
         className="rm-btn"
         onClick={() => {
