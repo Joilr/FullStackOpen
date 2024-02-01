@@ -15,14 +15,21 @@ const UsersList = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Users</h1>
-      <h2>blogs created</h2>
-      <ul>
+    <div className="p-5 max-w-xs">
+      <h1 className="text-3xl font-bold text-gray-900 mb-4">Users</h1>
+      <h2 className="text-xl font-semibold text-gray-700 mb-2">
+        Blogs created
+      </h2>
+      <ul className="bg-white rounded-lg border border-gray-200 p-4">
         {users.map((user) => (
-          <li key={user.id}>
-            <Link to={`/users/${user.id}`}>{user.username} </Link>
-            {user.blogs.length}
+          <li key={user.id} className="py-2 border-b border-gray-100">
+            <Link
+              to={`/users/${user.id}`}
+              className="mr-2 font-bold text-blue-500 hover:text-blue-700 transition duration-300 ease-in-out"
+            >
+              {user.username}:
+            </Link>
+            <span className="text-gray-600">{user.blogs.length}</span>
           </li>
         ))}
       </ul>

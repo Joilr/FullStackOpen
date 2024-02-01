@@ -8,7 +8,7 @@ import UsersList from './components/UsersList';
 import UserID from './components/UserID';
 import BlogID from './components/BlogID';
 import NavBar from './components/NavBar';
-import './index.css';
+import './output.css';
 import Notification from './components/Notification';
 import { useSelector, useDispatch } from 'react-redux';
 import { initializeBlogs } from './reducers/blogReducer';
@@ -28,9 +28,11 @@ const App = () => {
       <div>
         {!user && (
           <div>
-            <h1>login to application</h1>
             <Notification />
-            <Togglable buttonLabel="log in" className="log-in-btn">
+            <Togglable
+              buttonLabel="log in"
+              className="m-6 p-4 log-in-btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded"
+            >
               <LoginForm />
             </Togglable>
           </div>
@@ -39,12 +41,11 @@ const App = () => {
         {user && (
           <div>
             <NavBar />
-            <h1>blogs</h1>
             <Notification />
 
             <Togglable
-              buttonLabel="new blog"
-              className="new-blog-btn"
+              buttonLabel="Create blog"
+              className="new-blog-btn m-6 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               ref={blogFormRef}
             >
               <BlogForm />
