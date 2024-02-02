@@ -6,7 +6,7 @@ const UsersList = () => {
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const response = await fetch('http://localhost:3003/api/users'); // Replace with your actual API endpoint
+      const response = await fetch('http://localhost:3003/api/users');
       const data = await response.json();
       setUsers(data);
     };
@@ -15,17 +15,17 @@ const UsersList = () => {
   }, []);
 
   return (
-    <div className="p-5 max-w-xs">
-      <h1 className="text-3xl font-bold text-gray-900 mb-4">Users</h1>
-      <h2 className="text-xl font-semibold text-gray-700 mb-2">
+    <div className="max-w-xs p-5">
+      <h1 className="mb-4 text-3xl font-bold text-gray-900">Users</h1>
+      <h2 className="mb-2 text-xl font-semibold text-gray-700">
         Blogs created
       </h2>
-      <ul className="bg-white rounded-lg border border-gray-200 p-4">
+      <ul className="p-4 bg-white border border-gray-200 rounded-lg">
         {users.map((user) => (
           <li key={user.id} className="py-2 border-b border-gray-100">
             <Link
               to={`/users/${user.id}`}
-              className="mr-2 font-bold text-blue-500 hover:text-blue-700 transition duration-300 ease-in-out"
+              className="mr-2 font-bold text-blue-500 transition duration-300 ease-in-out hover:text-blue-700"
             >
               {user.username}:
             </Link>

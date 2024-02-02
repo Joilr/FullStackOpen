@@ -36,7 +36,6 @@ const UsersList = () => {
     setLoading(false);
   }, [id]);
 
-  //Match person id with id from blogs to gather the specific blog items
   const personBlogs = blogs.filter((blog) => blog.user.id === id);
 
   if (loading) {
@@ -48,10 +47,10 @@ const UsersList = () => {
   }
 
   return (
-    <div className="max-w-md bg-white rounded-xl shadow-md overflow-hidden p-5">
+    <div className="max-w-md p-5 overflow-hidden bg-white shadow-md rounded-xl">
       <h1 className="text-xl font-semibold text-gray-900">{user.username}</h1>
       <h2 className="text-lg text-gray-700">added blogs</h2>
-      <ul className="list-disc pl-5">
+      <ul className="pl-5 list-disc">
         {personBlogs.map((blog) => (
           <li key={blog.id} className="text-blue-500 hover:text-blue-800">
             <Link to={`/blogs/${blog.id}`} className="underline">
