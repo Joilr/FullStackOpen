@@ -28,6 +28,7 @@ mongoose
 const typeDefs = `#graphql
   type User {
     username: String!
+    favorite_genre: String
     id: ID!
   }
 
@@ -40,6 +41,7 @@ type Query {
   authorCount: Int!
   allBooks(author: String, genre: String): [Book!]!
   allAuthors: [Author!]!
+  me: User
 }
 
 type Book {
@@ -72,6 +74,7 @@ type Mutation {
 
   createUser(
     username: String!
+    favorite_genre: String
   ): User
     
   login(
@@ -105,6 +108,10 @@ const resolvers = {
 
     allAuthors: async (root, args) => {
       return Author.find({});
+    },
+
+    me: async (root, args, context) => {
+      return context.currentUser;
     },
   },
 
@@ -196,7 +203,10 @@ const resolvers = {
     },
 
     createUser: async (root, args) => {
-      const user = new User({ username: args.username });
+      const user = new User({
+        username: args.username,
+        favorite_genre: args.favorite_genre,
+      });
 
       return user.save().catch((error) => {
         throw new GraphQLError("Creating the user failed", {
@@ -220,6 +230,7 @@ const resolvers = {
 
       const userForToken = {
         username: user.username,
+        favorite_genre: user.favorite_genre,
         id: user._id,
       };
 

@@ -6,6 +6,9 @@ const schema = new mongoose.Schema({
     required: true,
     minlength: 3,
   },
+  favorite_genre: {
+    type: String,
+  },
 });
 
 module.exports = mongoose.model("User", schema);

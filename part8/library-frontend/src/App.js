@@ -50,7 +50,7 @@ const App = () => {
 
       <Authors allAuthors={allAuthors} />
 
-      <Books allBooks={allBooks} />
+      <Books />
 
       <NewBook show={page === "add"} />
     </div>
