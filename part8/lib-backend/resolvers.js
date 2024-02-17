@@ -28,7 +28,7 @@ const resolvers = {
     },
 
     allAuthors: async (root, args) => {
-      return Author.find({});
+      return Author.find({}).populate("books");
     },
 
     me: async (root, args, context) => {
@@ -37,8 +37,8 @@ const resolvers = {
   },
 
   Author: {
-    bookCount: async (author) => {
-      return await Book.countDocuments({ author: author.name });
+    bookCount: (author) => {
+      return author.books.length;
     },
   },
 
@@ -82,6 +82,9 @@ const resolvers = {
         });
 
         await book.save();
+
+        author.books.push(book._id);
+        await author.save();
 
         pubsub.publish("BOOK_ADDED", { bookAdded: book });
 
