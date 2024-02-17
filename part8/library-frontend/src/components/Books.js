@@ -1,9 +1,29 @@
 import { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_BOOKS_BY_GENRE, GET_MY_FAVORITE_GENRE } from "./queries";
+import { useApolloClient, useSubscription } from "@apollo/client";
+import { BOOK_ADDED } from "./queries";
+import { updateCache } from "../App";
 
 const Books = () => {
   const [genre, setGenre] = useState("");
+
+  const client = useApolloClient();
+
+  useSubscription(BOOK_ADDED, {
+    onSubscriptionData: ({ subscriptionData }) => {
+      const addedBook = subscriptionData.data.bookAdded;
+      // Now use updateCache to update the cache
+      updateCache(
+        client.cache,
+        { query: GET_BOOKS_BY_GENRE, variables: { genre: genre || null } },
+        addedBook
+      );
+
+      // Optionally, if you want to alert or do something else with the added book
+      alert(`${addedBook.title} added`);
+    },
+  });
 
   const {
     data: booksData,
