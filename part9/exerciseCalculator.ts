@@ -1,4 +1,4 @@
-interface Result {
+export interface Result {
   periodLength: number;
   trainingDays: number;
   success: boolean;
@@ -8,7 +8,29 @@ interface Result {
   average: number;
 }
 
-const calculateExercises = (weeklyHours: number[], target: number): Result => {
+const parseArguments = (
+  args: string[]
+): { weeklyHours: number[]; target: number } => {
+  if (args[2].length < 4) throw new Error("Not enough arguments");
+
+  const target = Number(args[3]);
+  if (isNaN(target)) throw new Error("Target must be a number!");
+
+  const weeklyHours = args[2].split(",").map((arg) => {
+    const hour = Number(arg.trim());
+    if (isNaN(hour)) {
+      throw new Error("Weekly hours must be numbers!");
+    }
+    return hour;
+  });
+
+  return { weeklyHours, target };
+};
+
+export const calculateExercises = (
+  weeklyHours: number[],
+  target: number
+): Result => {
   const periodLength = weeklyHours.length;
   const trainingDays = weeklyHours.filter((day) => day > 0).length;
   const sumHours = weeklyHours.reduce((acc, curr) => acc + curr, 0);
@@ -40,4 +62,9 @@ const calculateExercises = (weeklyHours: number[], target: number): Result => {
   };
 };
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2));
+try {
+  const { weeklyHours, target } = parseArguments(process.argv);
+  console.log(calculateExercises(weeklyHours, target));
+} catch (e) {
+  console.log("Error:", e.message);
+}
