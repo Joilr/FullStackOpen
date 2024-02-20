@@ -24,6 +24,6 @@ export const calculateBmi = (height: number, weight: number): string => {
 try {
   const { height, weight } = parseArguments(process.argv);
   console.log(calculateBmi(height, weight));
-} catch (e) {
-  console.log("Error:", e.message);
+} catch (error) {
+  console.log("Error:");
 }
