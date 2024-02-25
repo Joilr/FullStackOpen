@@ -6,20 +6,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 const express_1 = __importDefault(require("express"));
 const patientsService_1 = __importDefault(require("../services/patientsService"));
+const utils_1 = __importDefault(require("../utils"));
 const router = express_1.default.Router();
 router.get("/", (_req, res) => {
     res.send(patientsService_1.default.getPatients());
 });
 router.post("/", (_req, res) => {
-    /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-    const { name, ssn, dateOfBirth, occupation, gender } = _req.body;
-    const addedPatient = patientsService_1.default.addPatient({
-        name,
-        ssn,
-        dateOfBirth,
-        occupation,
-        gender,
-    });
-    res.json(addedPatient);
+    try {
+        const newPatientsEntry = (0, utils_1.default)(_req.body);
+        const addedPatient = patientsService_1.default.addPatient(newPatientsEntry);
+        res.json(addedPatient);
+    }
+    catch (error) {
+        let errorMessage = "Something went wrong.";
+        if (error instanceof Error) {
+            errorMessage += " Error: " + error.message;
+        }
+        res.status(400).send(errorMessage);
+    }
 });
 exports.default = router;
