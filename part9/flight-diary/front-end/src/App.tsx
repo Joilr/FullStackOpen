@@ -39,6 +39,7 @@ const App = () => {
           if (error.response) {
             const errorMessage =
               error.response.data || "An unknown error occurred";
+            console.log(error.response);
             setErrorMessage(errorMessage);
             setTimeout(() => {
               setErrorMessage("");
@@ -67,6 +68,7 @@ const App = () => {
           <div>
             Date:
             <input
+              type="date"
               value={newDate}
               onChange={(event) => setNewDate(event.target.value)}
             />
@@ -74,17 +76,83 @@ const App = () => {
           <div>
             Visibility:
             <input
-              value={newVisibility}
+              type="radio"
+              id="great"
+              name="visibility"
+              value="great"
               onChange={(event) => setNewVisibility(event.target.value)}
             />
+            <label htmlFor="great">great</label>
+            <input
+              type="radio"
+              id="good"
+              name="visibility"
+              value="good"
+              onChange={(event) => setNewVisibility(event.target.value)}
+            />
+            <label htmlFor="good">good</label>
+            <input
+              type="radio"
+              id="ok"
+              name="visibility"
+              value="ok"
+              onChange={(event) => setNewVisibility(event.target.value)}
+            />
+            <label htmlFor="ok">ok</label>
+            <input
+              type="radio"
+              id="poor"
+              name="visibility"
+              value="poor"
+              onChange={(event) => setNewVisibility(event.target.value)}
+            />
+            <label htmlFor="poor">poor</label>
           </div>
+
           <div>
             Weather:
             <input
-              value={newWeather}
+              type="radio"
+              id="sunny"
+              name="weather"
+              value="sunny"
               onChange={(event) => setNewWeather(event.target.value)}
             />
+            <label htmlFor="sunny">Sunny</label>
+            <input
+              type="radio"
+              id="rainy"
+              name="weather"
+              value="rainy"
+              onChange={(event) => setNewWeather(event.target.value)}
+            />
+            <label htmlFor="rainy">Rainy</label>
+            <input
+              type="radio"
+              id="cloudy"
+              name="weather"
+              value="cloudy"
+              onChange={(event) => setNewWeather(event.target.value)}
+            />
+            <label htmlFor="cloudy">Cloudy</label>
+            <input
+              type="radio"
+              id="stormy"
+              name="weather"
+              value="stormy"
+              onChange={(event) => setNewWeather(event.target.value)}
+            />
+            <label htmlFor="stormy">Stormy</label>
+            <input
+              type="radio"
+              id="windy"
+              name="weather"
+              value="windy"
+              onChange={(event) => setNewWeather(event.target.value)}
+            />
+            <label htmlFor="windy">Windy</label>
           </div>
+
           <div>
             Comment:
             <input
