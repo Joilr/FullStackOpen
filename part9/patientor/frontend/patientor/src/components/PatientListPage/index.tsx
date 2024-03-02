@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Table,
@@ -58,6 +59,12 @@ const PatientListPage = ({ patients, setPatients }: Props) => {
     }
   };
 
+  const navigate = useNavigate();
+
+  const handleCellClick = (patientId: string) => {
+    navigate(`/patients/${patientId}`);
+  };
+
   return (
     <div className="App">
       <Box>
@@ -77,7 +84,9 @@ const PatientListPage = ({ patients, setPatients }: Props) => {
         <TableBody>
           {Object.values(patients).map((patient: Patient) => (
             <TableRow key={patient.id}>
-              <TableCell>{patient.name}</TableCell>
+              <TableCell onClick={() => handleCellClick(patient.id)}>
+                {patient.name}
+              </TableCell>
               <TableCell>{patient.gender}</TableCell>
               <TableCell>{patient.occupation}</TableCell>
               <TableCell>
