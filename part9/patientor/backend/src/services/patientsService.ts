@@ -18,16 +18,22 @@ const addPatient = (entry: NewPatientsEntry): PatientsEntry => {
   return newPatientsEntry;
 };
 
-const patients: PatientsEntryWithoutSSN[] = patientsData.map(
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  ({ ssn, ...rest }) => rest
-);
+// Store full PatientsEntry objects, including SSN and entries
+const patients: PatientsEntry[] = patientsData.map((patient) => ({
+  ...patient,
+  entries: [], // Add an empty array for 'entries'
+}));
 
 const getPatients = (): PatientsEntryWithoutSSN[] => {
-  return patients;
+  return patients.map(({ ssn: _ssn, entries: _entries, ...rest }) => rest);
+};
+
+const getPatientById = (id: string): PatientsEntry | undefined => {
+  return patients.find((patient) => patient.id === id);
 };
 
 export default {
   getPatients,
   addPatient,
+  getPatientById,
 };

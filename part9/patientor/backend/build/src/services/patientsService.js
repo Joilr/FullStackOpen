@@ -23,16 +23,19 @@ const addPatient = (entry) => {
     patients.push(newPatientsEntry);
     return newPatientsEntry;
 };
-const patients = patients_1.default.map(
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-(_a) => {
-    var { ssn } = _a, rest = __rest(_a, ["ssn"]);
-    return rest;
-});
+// Store full PatientsEntry objects, including SSN and entries
+const patients = patients_1.default.map((patient) => (Object.assign(Object.assign({}, patient), { entries: [] })));
 const getPatients = () => {
-    return patients;
+    return patients.map((_a) => {
+        var { ssn: _ssn, entries: _entries } = _a, rest = __rest(_a, ["ssn", "entries"]);
+        return rest;
+    });
+};
+const getPatientById = (id) => {
+    return patients.find((patient) => patient.id === id);
 };
 exports.default = {
     getPatients,
     addPatient,
+    getPatientById,
 };

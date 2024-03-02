@@ -15,6 +15,12 @@ const isGender = (param) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     return Object.values(types_1.Gender).includes(param);
 };
+const parseEntries = (entries) => {
+    if (!entries || !Array.isArray(entries)) {
+        throw new Error("Incorrect or missing entries");
+    }
+    return entries;
+};
 const parseGender = (gender) => {
     if (!gender || !isGender(gender)) {
         throw new Error(`Incorrect or missing gender: ${gender}`);
@@ -29,13 +35,15 @@ const toNewPatientsEntry = (object) => {
         "ssn" in object &&
         "dateOfBirth" in object &&
         "occupation" in object &&
-        "gender" in object) {
+        "gender" in object &&
+        "entries" in object) {
         const newEntry = {
             name: parseValue(object.name),
             ssn: parseValue(object.ssn),
             dateOfBirth: parseValue(object.dateOfBirth),
             occupation: parseValue(object.occupation),
             gender: parseGender(object.gender),
+            entries: parseEntries(object.entries),
         };
         return newEntry;
     }
