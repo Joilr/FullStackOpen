@@ -1,4 +1,4 @@
-import patientsData from "../../data/patients";
+import patientsData from "../../data/patients-full";
 import { v4 as uuidv4 } from "uuid";
 
 import {
@@ -21,7 +21,6 @@ const addPatient = (entry: NewPatientsEntry): PatientsEntry => {
 // Store full PatientsEntry objects, including SSN and entries
 const patients: PatientsEntry[] = patientsData.map((patient) => ({
   ...patient,
-  entries: [], // Add an empty array for 'entries'
 }));
 
 const getPatients = (): PatientsEntryWithoutSSN[] => {

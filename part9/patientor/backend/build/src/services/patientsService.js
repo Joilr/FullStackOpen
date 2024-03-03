@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const patients_1 = __importDefault(require("../../data/patients"));
+const patients_full_1 = __importDefault(require("../../data/patients-full"));
 const uuid_1 = require("uuid");
 const addPatient = (entry) => {
     const newPatientsEntry = Object.assign({ 
@@ -24,7 +24,7 @@ const addPatient = (entry) => {
     return newPatientsEntry;
 };
 // Store full PatientsEntry objects, including SSN and entries
-const patients = patients_1.default.map((patient) => (Object.assign(Object.assign({}, patient), { entries: [] })));
+const patients = patients_full_1.default.map((patient) => (Object.assign({}, patient)));
 const getPatients = () => {
     return patients.map((_a) => {
         var { ssn: _ssn, entries: _entries } = _a, rest = __rest(_a, ["ssn", "entries"]);

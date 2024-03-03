@@ -14,6 +14,7 @@ const PatientDetail = () => {
         try {
           const fetchedPatient = await patientService.getPatient(patientId);
           setPatient(fetchedPatient);
+          console.log(fetchedPatient);
         } catch (error) {
           console.error("Failed to fetch patient", error);
         }
@@ -34,6 +35,21 @@ const PatientDetail = () => {
       <div>{patient.gender}</div>
       <div>Occupation: {patient.occupation}</div>
       <div>SSN: {patient.ssn}</div>
+      <div>Entries:</div>
+      <ul>
+        {patient.entries.map((entry) => (
+          <li key={entry.id}>
+            {entry.date}: {entry.description}
+            {entry.diagnosisCodes && entry.diagnosisCodes.length > 0 && (
+              <ul>
+                {entry.diagnosisCodes.map((code) => (
+                  <li key={code}>{code}</li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
