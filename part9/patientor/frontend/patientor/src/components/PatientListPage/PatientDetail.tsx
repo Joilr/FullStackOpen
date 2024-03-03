@@ -1,9 +1,13 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import patientService from "../../services/patients";
-import { Patient } from "../../types";
+import { Patient, Diagnosis } from "../../types";
 
-const PatientDetail = () => {
+interface PatientDetailProps {
+  diagnoses: Diagnosis[];
+}
+
+const PatientDetail: React.FC<PatientDetailProps> = ({ diagnoses }) => {
   const { patientId } = useParams<{ patientId: string }>();
 
   const [patient, setPatient] = useState<Patient | null>(null);
@@ -14,7 +18,6 @@ const PatientDetail = () => {
         try {
           const fetchedPatient = await patientService.getPatient(patientId);
           setPatient(fetchedPatient);
-          console.log(fetchedPatient);
         } catch (error) {
           console.error("Failed to fetch patient", error);
         }
@@ -43,7 +46,9 @@ const PatientDetail = () => {
             {entry.diagnosisCodes && entry.diagnosisCodes.length > 0 && (
               <ul>
                 {entry.diagnosisCodes.map((code) => (
-                  <li key={code}>{code}</li>
+                  <li key={code}>
+                    {code} - {diagnoses.find((d) => d.code === code)?.name}
+                  </li>
                 ))}
               </ul>
             )}
